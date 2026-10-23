@@ -28,43 +28,50 @@ function PokemonDetails() {
     fetchPokemonDetails()
   }, [name])
 
-  if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <p className="status-message">Loading...</p>
   if (errorMessage) {
     return (
-      <div>
-        <p>Error: {errorMessage}</p>
-        <Link to="/">Back to list</Link>
+      <div className="page">
+        <p className="status-message">Error: {errorMessage}</p>
+        <Link to="/" className="back-link">← Back to list</Link>
       </div>
     )
   }
 
   return (
-    <div>
-      <Link to="/">← Back to list</Link>
-      <h1>{pokemonDetails.name}</h1>
-      <img
-        src={pokemonDetails.sprites.front_default}
-        alt={pokemonDetails.name}
-      />
-      <p>Height: {pokemonDetails.height}</p>
-      <p>Weight: {pokemonDetails.weight}</p>
+    <div className="page">
+      <Link to="/" className="back-link">← Back to list</Link>
+      <div className="details-card">
+        <h1>{pokemonDetails.name}</h1>
+        <img
+          src={pokemonDetails.sprites.front_default}
+          alt={pokemonDetails.name}
+        />
+        <p>Height: {pokemonDetails.height}</p>
+        <p>Weight: {pokemonDetails.weight}</p>
 
-      <h2>Types</h2>
-      <ul>
-        {pokemonDetails.types.map((typeEntry) => (
-          <li key={typeEntry.type.name}>{typeEntry.type.name}</li>
-        ))}
-      </ul>
+        <h2>Types</h2>
+        <ul className="badge-list">
+          {pokemonDetails.types.map((typeEntry) => (
+            <li key={typeEntry.type.name} className="badge">
+              {typeEntry.type.name}
+            </li>
+          ))}
+        </ul>
 
-      <h2>Abilities</h2>
-      <ul>
-        {pokemonDetails.abilities.map((abilityEntry) => (
-          <li key={abilityEntry.ability.name}>
-            {abilityEntry.ability.name}
-            {abilityEntry.is_hidden && ' (hidden)'}
-          </li>
-        ))}
-      </ul>
+        <h2>Abilities</h2>
+        <ul className="badge-list">
+          {pokemonDetails.abilities.map((abilityEntry) => (
+            <li
+              key={abilityEntry.ability.name}
+              className={abilityEntry.is_hidden ? 'badge badge-hidden' : 'badge'}
+            >
+              {abilityEntry.ability.name}
+              {abilityEntry.is_hidden && ' (hidden)'}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
